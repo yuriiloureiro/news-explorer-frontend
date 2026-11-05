@@ -1,3 +1,14 @@
 .page {
   min-height: 100vh;
 }
+
+.page__hero {
+  background-color: var(--color-dark);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("./images/hero-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--color-white);
+}
