@@ -14,3 +14,30 @@
   font-weight: 400;
   line-height: 46px;
 }
+
+.saved-news__keywords {
+  margin-top: 16px;
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--color-gray);
+}
+
+.saved-news__keyword {
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.saved-news__list {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.saved-news__item {
+  display: flex;
+}
+
+.saved-news__item .card {
+  width: 100%;
+}
