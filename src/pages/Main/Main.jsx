@@ -8,11 +8,28 @@ import Preloader from "../../components/Preloader/Preloader";
 import NothingFound from "../../components/NothingFound/NothingFound";
 import { searchNews } from "../../utils/newsApi";
 
+const STORAGE_KEY = "news-explorer-search";
+
+function getSavedSearch() {
+  try {
+    const savedSearch = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return savedSearch && savedSearch.keyword ? savedSearch : null;
+  } catch {
+    return null;
+  }
+}
+
 function Main({ onEntrar }) {
-  const [articles, setArticles] = useState([]);
-  const [keyword, setKeyword] = useState("");
+  const savedSearch = getSavedSearch();
+
+  const [articles, setArticles] = useState(
+    savedSearch ? savedSearch.articles : [],
+  );
+  const [keyword, setKeyword] = useState(
+    savedSearch ? savedSearch.keyword : "",
+  );
   const [isLoading, setIsLoading] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
+  const [hasSearched, setHasSearched] = useState(Boolean(savedSearch));
   const [hasError, setHasError] = useState(false);
 
   function handleSearch(searchKeyword) {
@@ -23,7 +40,12 @@ function Main({ onEntrar }) {
 
     searchNews(searchKeyword)
       .then((data) => {
-        setArticles(data.articles || []);
+        const results = data.articles || [];
+        setArticles(results);
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({ keyword: searchKeyword, articles: results }),
+        );
       })
       .catch(() => {
         setArticles([]);
@@ -58,7 +80,7 @@ function Main({ onEntrar }) {
     <>
       <div className="page__hero">
         <Header variant="dark" onEntrar={onEntrar} />
-        <Hero onSearch={handleSearch} />
+        <Hero onSearch={handleSearch} initialKeyword={keyword} />
       </div>
       {renderResults()}
       <About />

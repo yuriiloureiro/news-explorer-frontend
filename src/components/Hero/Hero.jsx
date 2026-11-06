@@ -1,7 +1,7 @@
 import SearchForm from "../SearchForm/SearchForm";
 import "./Hero.css";
 
-function Hero({ onSearch }) {
+function Hero({ onSearch, initialKeyword }) {
   return (
     <section className="hero">
       <div className="hero__container">
@@ -10,7 +10,7 @@ function Hero({ onSearch }) {
           Encontre as últimas notícias sobre qualquer tema e salve elas em sua
           conta pessoal
         </p>
-        <SearchForm onSearch={onSearch} />
+        <SearchForm onSearch={onSearch} initialKeyword={initialKeyword} />
       </div>
     </section>
   );
