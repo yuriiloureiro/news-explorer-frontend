@@ -41,3 +41,41 @@
 .about__text:last-child {
   margin-bottom: 0;
 }
+
+@media (max-width: 1100px) {
+  .about__container {
+    padding: 0 40px;
+    gap: 40px;
+  }
+
+  .about__photo {
+    width: 324px;
+    height: 324px;
+  }
+
+  .about__content {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .about {
+    padding: 48px 0;
+  }
+
+  .about__container {
+    flex-direction: column;
+    padding: 0 16px;
+    gap: 32px;
+  }
+
+  .about__photo {
+    width: 232px;
+    height: 232px;
+  }
+
+  .about__title {
+    font-size: 30px;
+    line-height: 34px;
+  }
+}

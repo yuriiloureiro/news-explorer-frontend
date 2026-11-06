@@ -38,3 +38,34 @@
 .results__more-button:hover {
   background-color: #e8e8e8;
 }
+
+@media (max-width: 1100px) {
+  .results__container {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .results {
+    padding: 48px 0;
+  }
+
+  .results__container {
+    padding: 0 16px;
+  }
+
+  .results__title {
+    margin-bottom: 32px;
+    font-size: 30px;
+    line-height: 34px;
+  }
+
+  .results__list {
+    grid-template-columns: 1fr;
+  }
+
+  .results__more-button {
+    width: 100%;
+    margin-top: 48px;
+  }
+}

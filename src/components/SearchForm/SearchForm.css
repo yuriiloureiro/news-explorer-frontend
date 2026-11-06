@@ -40,3 +40,27 @@
 .search-form__button:hover {
   background-color: var(--color-accent-hover);
 }
+
+@media (max-width: 640px) {
+  .search-form {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 48px;
+    background-color: transparent;
+    overflow: visible;
+  }
+
+  .search-form__input {
+    flex: none;
+    width: 100%;
+    height: 56px;
+    padding: 0 16px;
+    background-color: var(--color-white);
+    border-radius: 100px;
+  }
+
+  .search-form__button {
+    width: 100%;
+    height: 56px;
+  }
+}
