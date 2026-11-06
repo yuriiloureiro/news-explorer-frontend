@@ -47,9 +47,15 @@
   }
 
   .footer__container {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: flex-start;
     padding: 0 16px;
     gap: 16px;
   }
+}
+
+.footer__link_github {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
