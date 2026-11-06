@@ -1,85 +1,41 @@
 import { useState } from "react";
-import Header from "./components/Header/Header";
-import Hero from "./components/Hero/Hero";
-import About from "./components/About/About";
-import Footer from "./components/Footer/Footer";
-import NewsCardList from "./components/NewsCardList/NewsCardList";
-import Preloader from "./components/Preloader/Preloader";
-import NothingFound from "./components/NothingFound/NothingFound";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import Main from "./pages/Main/Main";
+import SavedNews from "./pages/SavedNews/SavedNews";
 import LoginModal from "./components/LoginModal/LoginModal";
 import SignupModal from "./components/SignupModal/SignupModal";
-import { searchNews } from "./utils/newsApi";
 import "./App.css";
 
 function App() {
-  const [articles, setArticles] = useState([]);
-  const [keyword, setKeyword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [hasError, setHasError] = useState(false);
   const [activeModal, setActiveModal] = useState("");
 
-  function handleSearch(searchKeyword) {
-    setKeyword(searchKeyword);
-    setHasSearched(true);
-    setIsLoading(true);
-    setHasError(false);
-
-    searchNews(searchKeyword)
-      .then((data) => {
-        setArticles(data.articles || []);
-      })
-      .catch(() => {
-        setArticles([]);
-        setHasError(true);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
-
-  function renderResults() {
-    if (isLoading) {
-      return <Preloader />;
-    }
-
-    if (hasError) {
-      return <NothingFound />;
-    }
-
-    if (hasSearched && articles.length === 0) {
-      return <NothingFound />;
-    }
-
-    if (articles.length > 0) {
-      return <NewsCardList key={keyword} articles={articles} />;
-    }
-
-    return null;
-  }
-
   return (
-    <div className="page">
-      <div className="page__hero">
-        <Header onEntrar={() => setActiveModal("login")} />
-        <Hero onSearch={handleSearch} />
+    <BrowserRouter>
+      <div className="page">
+        <Switch>
+          <Route path="/saved-news">
+            <SavedNews onEntrar={() => setActiveModal("login")} />
+          </Route>
+          <Route exact path="/">
+            <Main onEntrar={() => setActiveModal("login")} />
+          </Route>
+          <Redirect to="/" />
+        </Switch>
+
+        {activeModal === "login" && (
+          <LoginModal
+            onClose={() => setActiveModal("")}
+            onSwitch={() => setActiveModal("signup")}
+          />
+        )}
+        {activeModal === "signup" && (
+          <SignupModal
+            onClose={() => setActiveModal("")}
+            onSwitch={() => setActiveModal("login")}
+          />
+        )}
       </div>
-      {renderResults()}
-      <About />
-      <Footer />
-      {activeModal === "login" && (
-        <LoginModal
-          onClose={() => setActiveModal("")}
-          onSwitch={() => setActiveModal("signup")}
-        />
-      )}
-      {activeModal === "signup" && (
-        <SignupModal
-          onClose={() => setActiveModal("")}
-          onSwitch={() => setActiveModal("login")}
-        />
-      )}
-    </div>
+    </BrowserRouter>
   );
 }
 

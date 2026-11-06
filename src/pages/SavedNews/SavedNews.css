@@ -1,0 +1,16 @@
+.saved-news {
+  padding: 80px 0;
+}
+
+.saved-news__container {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 104px;
+}
+
+.saved-news__title {
+  font-family: var(--font-title);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 46px;
+}

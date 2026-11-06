@@ -58,3 +58,25 @@
 .header__auth-button:hover {
   opacity: 0.8;
 }
+
+.header_variant_light {
+  color: var(--color-dark);
+}
+
+.header_variant_light .header__nav-link_active {
+  border-bottom-color: var(--color-dark);
+}
+
+.header_variant_light .header__logo,
+.header_variant_light .header__nav-link {
+  color: var(--color-dark);
+}
+
+.header_variant_light .header__nav-link:hover {
+  border-bottom-color: var(--color-dark);
+}
+
+.header_variant_light .header__auth-button {
+  border-color: var(--color-dark);
+  color: var(--color-dark);
+}

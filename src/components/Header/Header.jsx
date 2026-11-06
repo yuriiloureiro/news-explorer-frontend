@@ -1,18 +1,34 @@
+import { Link } from "react-router-dom";
 import "./Header.css";
 
-function Header({ onEntrar }) {
+function Header({ variant = "dark", onEntrar }) {
   return (
-    <header className="header">
+    <header className={`header header_variant_${variant}`}>
       <div className="header__container">
-        <a className="header__logo" href="/">
+        <Link className="header__logo" to="/">
           NewsExplorer
-        </a>
+        </Link>
         <nav className="header__nav">
           <ul className="header__nav-list">
             <li className="header__nav-item">
-              <a className="header__nav-link header__nav-link_active" href="/">
+              <Link
+                className={`header__nav-link ${
+                  variant === "dark" ? "header__nav-link_active" : ""
+                }`}
+                to="/"
+              >
                 Início
-              </a>
+              </Link>
+            </li>
+            <li className="header__nav-item">
+              <Link
+                className={`header__nav-link ${
+                  variant === "light" ? "header__nav-link_active" : ""
+                }`}
+                to="/saved-news"
+              >
+                Artigos salvos
+              </Link>
             </li>
           </ul>
           <button
