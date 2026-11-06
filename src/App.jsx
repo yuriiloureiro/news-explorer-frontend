@@ -6,6 +6,8 @@ import Footer from "./components/Footer/Footer";
 import NewsCardList from "./components/NewsCardList/NewsCardList";
 import Preloader from "./components/Preloader/Preloader";
 import NothingFound from "./components/NothingFound/NothingFound";
+import LoginModal from "./components/LoginModal/LoginModal";
+import SignupModal from "./components/SignupModal/SignupModal";
 import { searchNews } from "./utils/newsApi";
 import "./App.css";
 
@@ -15,6 +17,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [activeModal, setActiveModal] = useState("");
 
   function handleSearch(searchKeyword) {
     setKeyword(searchKeyword);
@@ -58,12 +61,24 @@ function App() {
   return (
     <div className="page">
       <div className="page__hero">
-        <Header />
+        <Header onEntrar={() => setActiveModal("login")} />
         <Hero onSearch={handleSearch} />
       </div>
       {renderResults()}
       <About />
       <Footer />
+      {activeModal === "login" && (
+        <LoginModal
+          onClose={() => setActiveModal("")}
+          onSwitch={() => setActiveModal("signup")}
+        />
+      )}
+      {activeModal === "signup" && (
+        <SignupModal
+          onClose={() => setActiveModal("")}
+          onSwitch={() => setActiveModal("login")}
+        />
+      )}
     </div>
   );
 }

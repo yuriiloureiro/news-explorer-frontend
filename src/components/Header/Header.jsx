@@ -1,6 +1,6 @@
 import "./Header.css";
 
-function Header() {
+function Header({ onEntrar }) {
   return (
     <header className="header">
       <div className="header__container">
@@ -15,7 +15,11 @@ function Header() {
               </a>
             </li>
           </ul>
-          <button className="header__auth-button" type="button">
+          <button
+            className="header__auth-button"
+            type="button"
+            onClick={onEntrar}
+          >
             Entrar
           </button>
         </nav>
