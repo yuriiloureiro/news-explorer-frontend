@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
 
-function Header({ variant = "dark", onEntrar }) {
+function Header({ variant = "dark", onSignIn }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  function handleEntrar() {
+  function handleSignIn() {
     setIsMenuOpen(false);
-    onEntrar();
+    onSignIn();
   }
 
   return (
@@ -48,7 +48,7 @@ function Header({ variant = "dark", onEntrar }) {
           <button
             className="header__auth-button"
             type="button"
-            onClick={handleEntrar}
+            onClick={handleSignIn}
           >
             Entrar
           </button>
