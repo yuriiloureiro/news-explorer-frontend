@@ -19,7 +19,7 @@ function getSavedSearch() {
   }
 }
 
-function Main({ onEntrar }) {
+function Main({ onSignIn }) {
   const savedSearch = getSavedSearch();
 
   const [articles, setArticles] = useState(
@@ -79,7 +79,7 @@ function Main({ onEntrar }) {
   return (
     <>
       <div className="page__hero">
-        <Header variant="dark" onEntrar={onEntrar} />
+        <Header variant="dark" onSignIn={onSignIn} />
         <Hero onSearch={handleSearch} initialKeyword={keyword} />
       </div>
       {renderResults()}

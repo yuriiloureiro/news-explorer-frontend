@@ -14,10 +14,10 @@ function App() {
       <div className="page">
         <Switch>
           <Route path="/saved-news">
-            <SavedNews onEntrar={() => setActiveModal("login")} />
+            <SavedNews onSignIn={() => setActiveModal("login")} />
           </Route>
           <Route exact path="/">
-            <Main onEntrar={() => setActiveModal("login")} />
+            <Main onSignIn={() => setActiveModal("login")} />
           </Route>
           <Redirect to="/" />
         </Switch>
