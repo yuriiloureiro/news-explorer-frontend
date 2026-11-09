@@ -1,6 +1,6 @@
 # News Explorer
 
-News Explorer é uma aplicação React para pesquisar notícias por palavra-chave. A interface exibe os resultados em cards e mantém a palavra-chave e os resultados da pesquisa no armazenamento local do navegador, para restaurá-los quando a página é recarregada.
+News Explorer é uma aplicação React para pesquisar notícias por palavra-chave. Os resultados são exibidos em cards, e a palavra-chave e os artigos da pesquisa são mantidos no armazenamento local do navegador para restaurar a busca após recarregar a página.
 
 ## Tecnologias
 
@@ -8,49 +8,57 @@ News Explorer é uma aplicação React para pesquisar notícias por palavra-chav
 - Vite
 - JavaScript
 - CSS
-- News API durante o desenvolvimento local
-- Proxy da TripleTen no build de produção
+- News API
+- Proxy da TripleTen para as requisições de notícias em produção
 
 ## Funcionalidades
 
-- Pesquisa de notícias por palavra-chave.
-- Exibição dos resultados em cards, com opção para mostrar mais notícias.
-- Persistência local da busca e dos resultados.
-- Layout responsivo, incluindo listas em três, duas ou uma coluna conforme a largura da tela.
-- Modais de login e cadastro na interface.
+- Busca de notícias por palavra-chave.
+- Exibição de notícias em cards, com opção para carregar mais resultados.
+- Persistência local da palavra-chave e dos resultados da pesquisa.
+- Layout responsivo com listas em três, duas ou uma coluna, conforme a largura da tela.
+- Modais de login e cadastro.
+- Página de artigos salvos na interface.
 
-> A interface de login, cadastro e artigos salvos está presente nesta fase. A integração dessas funcionalidades com a API própria faz parte das etapas seguintes do projeto.
+> Nesta fase, a interface de login, cadastro e artigos salvos está implementada. A integração dessas funcionalidades com a API própria será realizada nas etapas seguintes do projeto.
 
 ## Executar localmente
 
-1. Clone este repositório e entre na pasta do projeto.
+1. Clone este repositório e acesse a pasta do projeto.
 2. Instale as dependências:
 
    ```bash
    npm install
    ```
 
-3. Crie um arquivo `.env` na raiz do projeto e adicione sua chave da News API:
+3. Crie um arquivo `.env` na raiz do projeto e configure sua chave da News API:
 
    ```env
    VITE_NEWS_API_KEY=sua_chave
    ```
 
-4. Inicie a aplicação em modo de desenvolvimento:
+4. Inicie o servidor de desenvolvimento:
 
    ```bash
    npm run dev
    ```
 
-Para testar o comportamento de produção localmente, execute:
+Para gerar e visualizar o build de produção localmente:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-Não publique nem envie sua chave da News API ao GitHub. No build de produção, a aplicação usa o proxy da TripleTen, sem precisar cadastrar a chave na Vercel.
+Não envie o arquivo `.env` nem sua chave da News API ao GitHub. Para que a busca funcione no deploy, configure `VITE_NEWS_API_KEY` nas variáveis de ambiente do projeto na Vercel e faça um novo deploy. A aplicação usa o proxy da TripleTen para as requisições de notícias em produção.
+
+## Scripts disponíveis
+
+- `npm run dev`: inicia o servidor de desenvolvimento do Vite.
+- `npm run build`: gera o build de produção.
+- `npm run lint`: executa o ESLint.
+- `npm run preview`: serve localmente o build de produção.
 
 ## Deploy
 
-O link do deploy será adicionado após a publicação na Vercel.
+Aplicação publicada: [News Explorer](https://news-explorer-frontend-gamma.vercel.app/)
