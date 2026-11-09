@@ -1,9 +1,9 @@
 import { NEWS_API_URL, NEWS_API_KEY, PAGE_SIZE } from "./constants";
 
 export function searchNews(keyword) {
-  const url = `${NEWS_API_URL}/everything?q=${encodeURIComponent(
-    keyword,
-  )}&pageSize=${PAGE_SIZE}&apiKey=${NEWS_API_KEY}`;
+  const query = encodeURIComponent(keyword);
+  const apiKeyParam = NEWS_API_KEY ? `&apiKey=${NEWS_API_KEY}` : "";
+  const url = `${NEWS_API_URL}/everything?q=${query}&pageSize=${PAGE_SIZE}${apiKeyParam}`;
 
   return fetch(url).then((res) => {
     if (!res.ok) {
