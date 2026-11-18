@@ -5,7 +5,7 @@ import SavedNews from "./pages/SavedNews/SavedNews";
 import LoginModal from "./components/LoginModal/LoginModal";
 import SignupModal from "./components/SignupModal/SignupModal";
 import CurrentUserContext from "./contexts/CurrentUserContext";
-import { getCurrentUser } from "./utils/MainApi";
+import { getCurrentUser, signin } from "./utils/MainApi";
 import "./App.css";
 
 const TOKEN_KEY = "jwt";
@@ -30,6 +30,18 @@ function App() {
     localStorage.removeItem(TOKEN_KEY);
     setCurrentUser(null);
     history.push("/");
+  }
+
+  function handleLogin({ email, password }) {
+    return signin({ email, password })
+      .then(({ token }) => {
+        localStorage.setItem(TOKEN_KEY, token);
+        return getCurrentUser(token);
+      })
+      .then((user) => {
+        setCurrentUser(user);
+        setActiveModal("");
+      });
   }
 
   return (
@@ -57,6 +69,7 @@ function App() {
           <LoginModal
             onClose={() => setActiveModal("")}
             onSwitch={() => setActiveModal("signup")}
+            onLogin={handleLogin}
           />
         )}
         {activeModal === "signup" && (

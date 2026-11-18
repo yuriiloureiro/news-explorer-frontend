@@ -1,15 +1,23 @@
 import { useState } from "react";
 import Modal from "../Modal/Modal";
+import useFormValidation from "../../hooks/useFormValidation";
 
-function LoginModal({ onClose, onSwitch }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const isFormFilled = email.trim() !== "" && password.trim() !== "";
+function LoginModal({ onClose, onSwitch, onLogin }) {
+  const { values, errors, isValid, handleChange } = useFormValidation({
+    email: "",
+    password: "",
+  });
+  const [submitError, setSubmitError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleSubmit(event) {
     event.preventDefault();
-    // A autenticação será conectada na Fase 3, com a nossa API
+    setSubmitError("");
+    setIsSubmitting(true);
+
+    onLogin(values)
+      .catch((message) => setSubmitError(String(message)))
+      .finally(() => setIsSubmitting(false));
   }
 
   return (
@@ -23,9 +31,10 @@ function LoginModal({ onClose, onSwitch }) {
             type="email"
             name="email"
             placeholder="Inserir e-mail"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            value={values.email}
+            onChange={handleChange}
           />
+          {errors.email && <span className="modal__error">{errors.email}</span>}
         </label>
         <label className="modal__field">
           <span className="modal__field-label">Senha</span>
@@ -34,14 +43,18 @@ function LoginModal({ onClose, onSwitch }) {
             type="password"
             name="password"
             placeholder="Inserir senha"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            value={values.password}
+            onChange={handleChange}
           />
+          {errors.password && (
+            <span className="modal__error">{errors.password}</span>
+          )}
         </label>
+        {submitError && <span className="modal__error">{submitError}</span>}
         <button
           className="modal__submit"
           type="submit"
-          disabled={!isFormFilled}
+          disabled={!isValid || isSubmitting}
         >
           Entrar
         </button>
