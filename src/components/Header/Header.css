@@ -154,3 +154,11 @@
     color: var(--color-white);
   }
 }
+
+.header__user-name {
+  display: block;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

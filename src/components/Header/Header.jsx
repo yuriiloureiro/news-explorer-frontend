@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 import "./Header.css";
 
-function Header({ variant = "dark", onSignIn }) {
+function Header({ variant = "dark", onSignIn, onSignOut }) {
+  const { currentUser, isLoggedIn } = useContext(CurrentUserContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function handleSignIn() {
     setIsMenuOpen(false);
     onSignIn();
+  }
+
+  function handleSignOut() {
+    setIsMenuOpen(false);
+    onSignOut();
   }
 
   return (
@@ -33,25 +40,38 @@ function Header({ variant = "dark", onSignIn }) {
                 Início
               </Link>
             </li>
-            <li className="header__nav-item">
-              <Link
-                className={`header__nav-link ${
-                  variant === "light" ? "header__nav-link_active" : ""
-                }`}
-                to="/saved-news"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Artigos salvos
-              </Link>
-            </li>
+            {isLoggedIn && (
+              <li className="header__nav-item">
+                <Link
+                  className={`header__nav-link ${
+                    variant === "light" ? "header__nav-link_active" : ""
+                  }`}
+                  to="/saved-news"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Artigos salvos
+                </Link>
+              </li>
+            )}
           </ul>
-          <button
-            className="header__auth-button"
-            type="button"
-            onClick={handleSignIn}
-          >
-            Entrar
-          </button>
+          {isLoggedIn ? (
+            <button
+              className="header__auth-button"
+              type="button"
+              aria-label="Sair"
+              onClick={handleSignOut}
+            >
+              <span className="header__user-name">{currentUser.name}</span>
+            </button>
+          ) : (
+            <button
+              className="header__auth-button"
+              type="button"
+              onClick={handleSignIn}
+            >
+              Entrar
+            </button>
+          )}
         </nav>
         <button
           className="header__menu-button"

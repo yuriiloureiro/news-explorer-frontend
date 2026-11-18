@@ -4,10 +4,10 @@ import NewsCard from "../../components/NewsCard/NewsCard";
 import { mockArticles } from "../../utils/data";
 import "./SavedNews.css";
 
-function SavedNews({ onSignIn }) {
+function SavedNews({ onSignIn, onSignOut }) {
   return (
     <>
-      <Header variant="light" onSignIn={onSignIn} />
+      <Header variant="light" onSignIn={onSignIn} onSignOut={onSignOut} />
       <main className="saved-news">
         <div className="saved-news__container">
           <h1 className="saved-news__title">Artigos salvos</h1>
