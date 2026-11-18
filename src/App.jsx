@@ -5,7 +5,7 @@ import SavedNews from "./pages/SavedNews/SavedNews";
 import LoginModal from "./components/LoginModal/LoginModal";
 import SignupModal from "./components/SignupModal/SignupModal";
 import CurrentUserContext from "./contexts/CurrentUserContext";
-import { getCurrentUser, signin } from "./utils/MainApi";
+import { getCurrentUser, signin, signup } from "./utils/MainApi";
 import "./App.css";
 
 const TOKEN_KEY = "jwt";
@@ -44,6 +44,12 @@ function App() {
       });
   }
 
+  function handleSignup({ name, email, password }) {
+    return signup({ name, email, password }).then(() =>
+      handleLogin({ email, password }),
+    );
+  }
+
   return (
     <CurrentUserContext.Provider
       value={{ currentUser, isLoggedIn: Boolean(currentUser) }}
@@ -76,6 +82,7 @@ function App() {
           <SignupModal
             onClose={() => setActiveModal("")}
             onSwitch={() => setActiveModal("login")}
+            onSignup={handleSignup}
           />
         )}
       </div>

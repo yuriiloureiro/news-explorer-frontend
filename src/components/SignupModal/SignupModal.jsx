@@ -1,17 +1,24 @@
 import { useState } from "react";
 import Modal from "../Modal/Modal";
+import useFormValidation from "../../hooks/useFormValidation";
 
-function SignupModal({ onClose, onSwitch }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-
-  const isFormFilled =
-    email.trim() !== "" && password.trim() !== "" && name.trim() !== "";
+function SignupModal({ onClose, onSwitch, onSignup }) {
+  const { values, errors, isValid, handleChange } = useFormValidation({
+    email: "",
+    password: "",
+    name: "",
+  });
+  const [submitError, setSubmitError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleSubmit(event) {
     event.preventDefault();
-    // O cadastro será conectado na Fase 3, com a nossa API
+    setSubmitError("");
+    setIsSubmitting(true);
+
+    onSignup(values)
+      .catch((message) => setSubmitError(String(message)))
+      .finally(() => setIsSubmitting(false));
   }
 
   return (
@@ -25,9 +32,10 @@ function SignupModal({ onClose, onSwitch }) {
             type="email"
             name="email"
             placeholder="Inserir e-mail"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            value={values.email}
+            onChange={handleChange}
           />
+          {errors.email && <span className="modal__error">{errors.email}</span>}
         </label>
         <label className="modal__field">
           <span className="modal__field-label">Senha</span>
@@ -36,9 +44,12 @@ function SignupModal({ onClose, onSwitch }) {
             type="password"
             name="password"
             placeholder="Inserir senha"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            value={values.password}
+            onChange={handleChange}
           />
+          {errors.password && (
+            <span className="modal__error">{errors.password}</span>
+          )}
         </label>
         <label className="modal__field">
           <span className="modal__field-label">Nome de usuário</span>
@@ -47,14 +58,16 @@ function SignupModal({ onClose, onSwitch }) {
             type="text"
             name="name"
             placeholder="Inserir nome de usuário"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
+            value={values.name}
+            onChange={handleChange}
           />
+          {errors.name && <span className="modal__error">{errors.name}</span>}
         </label>
+        {submitError && <span className="modal__error">{submitError}</span>}
         <button
           className="modal__submit"
           type="submit"
-          disabled={!isFormFilled}
+          disabled={!isValid || isSubmitting}
         >
           Inscrever-se
         </button>
