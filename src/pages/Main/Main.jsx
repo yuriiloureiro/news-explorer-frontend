@@ -19,7 +19,13 @@ function getSavedSearch() {
   }
 }
 
-function Main({ onSignIn, onSignOut }) {
+function Main({
+  savedArticles,
+  onSignIn,
+  onSignOut,
+  onSaveArticle,
+  onDeleteArticle,
+}) {
   const savedSearch = getSavedSearch();
 
   const [articles, setArticles] = useState(
@@ -70,7 +76,16 @@ function Main({ onSignIn, onSignOut }) {
     }
 
     if (articles.length > 0) {
-      return <NewsCardList key={keyword} articles={articles} />;
+      return (
+        <NewsCardList
+          key={keyword}
+          articles={articles}
+          keyword={keyword}
+          savedArticles={savedArticles}
+          onSaveClick={onSaveArticle}
+          onDeleteClick={onDeleteArticle}
+        />
+      );
     }
 
     return null;

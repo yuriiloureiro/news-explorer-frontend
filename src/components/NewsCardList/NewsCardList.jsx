@@ -5,11 +5,18 @@ import "./NewsCardList.css";
 const INITIAL_COUNT = 3;
 const STEP = 3;
 
-function NewsCardList({ articles }) {
+function NewsCardList({
+  articles,
+  keyword,
+  savedArticles,
+  onSaveClick,
+  onDeleteClick,
+}) {
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
 
   const visibleArticles = articles.slice(0, visibleCount);
   const hasMore = visibleCount < articles.length;
+  const savedLinks = (savedArticles || []).map((saved) => saved.link);
 
   return (
     <section className="results">
@@ -18,7 +25,12 @@ function NewsCardList({ articles }) {
         <ul className="results__list">
           {visibleArticles.map((article) => (
             <li className="results__item" key={article.url}>
-              <NewsCard article={article} />
+              <NewsCard
+                article={article}
+                isSaved={savedLinks.includes(article.url)}
+                onSaveClick={() => onSaveClick(article, keyword)}
+                onDeleteClick={() => onDeleteClick(article)}
+              />
             </li>
           ))}
         </ul>
