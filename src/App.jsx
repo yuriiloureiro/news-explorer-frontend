@@ -6,7 +6,12 @@ import SavedNews from "./pages/SavedNews/SavedNews";
 import LoginModal from "./components/LoginModal/LoginModal";
 import SignupModal from "./components/SignupModal/SignupModal";
 import CurrentUserContext from "./contexts/CurrentUserContext";
-import { getCurrentUser, signin, signup } from "./utils/MainApi";
+import {
+  getCurrentUser,
+  signin,
+  signup,
+  getSavedArticles,
+} from "./utils/MainApi";
 import "./App.css";
 
 const TOKEN_KEY = "jwt";
@@ -15,6 +20,7 @@ function App() {
   const history = useHistory();
   const [activeModal, setActiveModal] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+  const [savedArticles, setSavedArticles] = useState(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(
     Boolean(localStorage.getItem(TOKEN_KEY)),
   );
@@ -31,11 +37,22 @@ function App() {
       .finally(() => setIsCheckingAuth(false));
   }, []);
 
+  useEffect(() => {
+    if (!currentUser) {
+      return;
+    }
+
+    getSavedArticles(localStorage.getItem(TOKEN_KEY))
+      .then((articles) => setSavedArticles(articles))
+      .catch(() => setSavedArticles([]));
+  }, [currentUser]);
+
   const openLoginModal = useCallback(() => setActiveModal("login"), []);
 
   function handleSignOut() {
     localStorage.removeItem(TOKEN_KEY);
     setCurrentUser(null);
+    setSavedArticles(null);
     history.push("/");
   }
 
@@ -69,6 +86,7 @@ function App() {
             onUnauthorized={openLoginModal}
           >
             <SavedNews
+              savedArticles={savedArticles}
               onSignIn={() => setActiveModal("login")}
               onSignOut={handleSignOut}
             />
