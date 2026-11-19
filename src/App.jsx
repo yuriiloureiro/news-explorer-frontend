@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import Main from "./pages/Main/Main";
 import SavedNews from "./pages/SavedNews/SavedNews";
@@ -14,6 +15,9 @@ function App() {
   const history = useHistory();
   const [activeModal, setActiveModal] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(
+    Boolean(localStorage.getItem(TOKEN_KEY)),
+  );
 
   useEffect(() => {
     const token = localStorage.getItem(TOKEN_KEY);
@@ -23,8 +27,11 @@ function App() {
 
     getCurrentUser(token)
       .then((user) => setCurrentUser(user))
-      .catch(() => localStorage.removeItem(TOKEN_KEY));
+      .catch(() => localStorage.removeItem(TOKEN_KEY))
+      .finally(() => setIsCheckingAuth(false));
   }, []);
+
+  const openLoginModal = useCallback(() => setActiveModal("login"), []);
 
   function handleSignOut() {
     localStorage.removeItem(TOKEN_KEY);
@@ -56,12 +63,16 @@ function App() {
     >
       <div className="page">
         <Switch>
-          <Route path="/saved-news">
+          <ProtectedRoute
+            path="/saved-news"
+            isCheckingAuth={isCheckingAuth}
+            onUnauthorized={openLoginModal}
+          >
             <SavedNews
               onSignIn={() => setActiveModal("login")}
               onSignOut={handleSignOut}
             />
-          </Route>
+          </ProtectedRoute>
           <Route exact path="/">
             <Main
               onSignIn={() => setActiveModal("login")}
