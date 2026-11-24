@@ -25,7 +25,7 @@ function getSortedKeywords(articles) {
   return Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
 }
 
-function SavedNews({ savedArticles, onSignIn, onSignOut }) {
+function SavedNews({ savedArticles, onSignIn, onSignOut, onDeleteArticle }) {
   const { currentUser } = useContext(CurrentUserContext);
   const articles = savedArticles || [];
 
@@ -62,7 +62,13 @@ function SavedNews({ savedArticles, onSignIn, onSignOut }) {
             <ul className="saved-news__list">
               {articles.map((article) => (
                 <li className="saved-news__item" key={article._id}>
-                  <NewsCard article={toCardArticle(article)} />
+                  <NewsCard
+                    article={toCardArticle(article)}
+                    variant="saved"
+                    keyword={article.keyword}
+                    isSaved
+                    onDeleteClick={onDeleteArticle}
+                  />
                 </li>
               ))}
             </ul>

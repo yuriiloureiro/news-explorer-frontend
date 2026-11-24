@@ -157,6 +157,7 @@ function App() {
               savedArticles={savedArticles}
               onSignIn={() => setActiveModal("login")}
               onSignOut={handleSignOut}
+              onDeleteArticle={handleDeleteArticle}
             />
           </ProtectedRoute>
           <Route exact path="/">
