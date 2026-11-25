@@ -111,3 +111,9 @@
 .modal__link:hover {
   color: var(--color-accent-hover);
 }
+
+.modal__error {
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--color-error, #ff3b30);
+}

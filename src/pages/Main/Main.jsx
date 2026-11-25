@@ -19,7 +19,13 @@ function getSavedSearch() {
   }
 }
 
-function Main({ onSignIn }) {
+function Main({
+  savedArticles,
+  onSignIn,
+  onSignOut,
+  onSaveArticle,
+  onDeleteArticle,
+}) {
   const savedSearch = getSavedSearch();
 
   const [articles, setArticles] = useState(
@@ -70,7 +76,16 @@ function Main({ onSignIn }) {
     }
 
     if (articles.length > 0) {
-      return <NewsCardList key={keyword} articles={articles} />;
+      return (
+        <NewsCardList
+          key={keyword}
+          articles={articles}
+          keyword={keyword}
+          savedArticles={savedArticles}
+          onSaveClick={onSaveArticle}
+          onDeleteClick={onDeleteArticle}
+        />
+      );
     }
 
     return null;
@@ -79,7 +94,7 @@ function Main({ onSignIn }) {
   return (
     <>
       <div className="page__hero">
-        <Header variant="dark" onSignIn={onSignIn} />
+        <Header variant="dark" onSignIn={onSignIn} onSignOut={onSignOut} />
         <Hero onSearch={handleSearch} initialKeyword={keyword} />
       </div>
       {renderResults()}
