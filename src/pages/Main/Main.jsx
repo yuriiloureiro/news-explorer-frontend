@@ -68,7 +68,7 @@ function Main({
     }
 
     if (hasError) {
-      return <NothingFound />;
+      return <NothingFound hasError />;
     }
 
     if (hasSearched && articles.length === 0) {
